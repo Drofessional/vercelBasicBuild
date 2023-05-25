@@ -1,6 +1,6 @@
 // Import required packages
 import express from 'express'
-import connection from '../lib/db/connection.js';
+import connection from './connection.js';
 import Bookmark from '../models/Bookmark.js';
 import * as dotenv from 'dotenv'
 
@@ -22,14 +22,14 @@ const Bookmark = mongoose.model('Bookmark', {
 
 // Routes
 // Get all bookmarks
-app.get('/bookmarks', (req, res) => {
+app.get('/api/bookmarks', (req, res) => {
   Bookmark.find()
     .then(bookmarks => res.json(bookmarks))
     .catch(err => res.status(500).json({ error: err.message }));
 });
 
 // Get a single bookmark
-app.get('/bookmarks/:id', (req, res) => {
+app.get('/api/bookmarks/:id', (req, res) => {
   Bookmark.findById(req.params.id)
     .then(bookmark => {
       if (!bookmark) {
@@ -41,7 +41,7 @@ app.get('/bookmarks/:id', (req, res) => {
 });
 
 // Create a new bookmark
-app.post('/bookmarks', (req, res) => {
+app.post('/api/bookmarks', (req, res) => {
   const bookmark = new Bookmark({
     title: req.body.title,
     url: req.body.url
@@ -53,7 +53,7 @@ app.post('/bookmarks', (req, res) => {
 });
 
 // Update a bookmark
-app.put('/bookmarks/:id', (req, res) => {
+app.put('/api/bookmarks/:id', (req, res) => {
   Bookmark.findByIdAndUpdate(req.params.id, {
     title: req.body.title,
     url: req.body.url
@@ -68,7 +68,7 @@ app.put('/bookmarks/:id', (req, res) => {
 });
 
 // Delete a bookmark
-app.delete('/bookmarks/:id', (req, res) => {
+app.delete('/api/bookmarks/:id', (req, res) => {
   Bookmark.findByIdAndRemove(req.params.id)
     .then(deletedBookmark => {
       if (!deletedBookmark) {
@@ -80,7 +80,4 @@ app.delete('/bookmarks/:id', (req, res) => {
 });
 
 // Start the server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+export default app
