@@ -4,7 +4,6 @@ import connection from './connection.js';
 import Bookmark from '../models/Bookmark.js';
 import * as dotenv from 'dotenv'
 
-
 dotenv.config()
 
 // Import environment variables
@@ -12,18 +11,12 @@ const PORT = process.env.PORT || 4000
 
 // Set up Express app
 const app = express();
-app.use(bodyParser.json());
 
-// Create a Bookmark model
-const Bookmark = mongoose.model('Bookmark', {
-  title: String,
-  url: String
-});
 
 // Routes
 // Get all bookmarks
 app.get('/api/bookmarks', (req, res) => {
-  Bookmark.find()
+  Bookmark.find({})
     .then(bookmarks => res.json(bookmarks))
     .catch(err => res.status(500).json({ error: err.message }));
 });
