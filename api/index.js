@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 4000
 // Set up Express app
 const app = express();
 
+// JSON middleware
+app.use(express.json());
 
 // Routes
 // Get all bookmarks
